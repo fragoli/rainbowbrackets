@@ -15,6 +15,7 @@ The primary function of this package is to replicate a common feature found in m
 ## Authors
 
 ex. Paul Eduard Koenig 
+(uses code from work by Ryan Reich and Matthew Towers)
 
 ## Version History
 
