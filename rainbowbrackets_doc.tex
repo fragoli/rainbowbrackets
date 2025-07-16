@@ -1,0 +1,244 @@
+% rainbowbrackets v. 1.0.0 y. 2025
+% 
+% Copyright (C) 2025 Paul Eduard Koenig
+% pauleduardkoenig (at) gmail [dot] com
+% Goethe University Frankfurt, Institute of Linguistics
+%
+% --------------------------------
+% 
+% Provides automatic coloring of nested parentheses using a configurable color cycle.
+% Tracks nesting depth with a counter and warns about unbalanced parentheses at end of document.
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in:
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of
+% LaTeX version 2008-05-04 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Paul Eduard Koenig.
+% This work consists of the files rainbowbrackets.sty and rainbowbrackets_doc.tex
+
+\documentclass[10pt, a4paper]{article}
+\usepackage[hidelinks]{hyperref}
+\usepackage[left=2.5cm, right=2.0cm, top=1cm, bottom=1cm, includeheadfoot]{geometry}
+\usepackage{enumerate}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{rainbowbrackets}
+\usepackage{listings}
+\usepackage{showexpl}
+\usepackage{expex}
+
+\lstdefinestyle{Common}
+{
+	language={[LaTeX]TeX},
+	numbers=left,
+	numbersep=1em,
+	numberstyle=\tiny,
+	frame=single,
+	framesep=\fboxsep,
+	framerule=\fboxrule,
+	rulecolor=\color{red},
+	xleftmargin=\dimexpr\fboxsep+\fboxrule,
+	xrightmargin=\dimexpr\fboxsep+\fboxrule,
+	breaklines=true,
+	breakindent=0pt,
+	tabsize=2,
+	columns=flexible,
+	includerangemarker=false,
+	rangeprefix=//\ ,
+}
+\lstdefinestyle{A}
+{
+	style=Common,
+	numbers=none,
+	backgroundcolor=\color{yellow!10},
+	basicstyle=\scriptsize\ttfamily,
+	keywordstyle=\color{blue}\bf,
+	identifierstyle=\color{black},
+	stringstyle=\color{red},
+	commentstyle=\color{green}
+}
+\lstdefinestyle{B}
+{
+	style=Common,
+	gobble=5,
+	frame=none,
+	backgroundcolor=\color{yellow!20},
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\bf,
+	identifierstyle=\color{black},
+	stringstyle=\color{red},
+	commentstyle=\color{green}
+}
+\newenvironment{itemizeexample}{
+	\begin{itemize}
+		\setlength\itemsep{-.5em}
+	}
+	{
+	\end{itemize}
+}
+\newenvironment{itemizeexamplecommand}{
+	\begin{itemize}
+		\setlength\itemsep{-0.2em}
+	}
+	{
+	\end{itemize}
+}
+\newlength{\halb}				\setlength{\halb}{0.5\textwidth}				\addtolength{\halb}{-1mm}
+
+
+%---------------------------------------------------------------- START --------------------------------------------
+
+\title{Rainbow Brackets\\Documentation for the \LaTeX\ package \texttt{'rainbowbrackets'}}
+\author{rainbowbrackets \textbackslash v 1.0.0\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
+
+
+\begin{document}
+	\maketitle
+	\begin{abstract}
+		\noindent This document presents a comprehensive overview of the LaTeX package rainbowbrackets. The primary function of this package is to replicate a common feature found in many integrated development environments (IDEs), wherein matching parentheses at the same nesting level are assigned corresponding colors. This visual aid facilitates improved readability and cognitive parsing of complex expressions.
+	\end{abstract}
+	\tableofcontents
+	\section{Background}
+	The rainbow brackets (or colored parentheses) feature originates from modern integrated development environments (IDEs), where it is commonly used to visually distinguish matching pairs of brackets, braces, and parentheses by applying distinct colors at each level of nesting. This technique is especially prevalent in programming and technical writing, where complex, deeply nested structures are common. By assigning consistent colors to matching delimiters, it enhances code readability and reduces the cognitive load required to trace nested scopes, thereby helping users quickly identify structural errors or imbalances. Its integration into LaTeX through the rainbowbrackets package brings these benefits to mathematical and technical documents, supporting clearer comprehension of intricate formulas and expressions.
+	
+	The concept originated in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, where it was employed primarily for educational purposes. Specifically, it was designed to support the teaching of complex semantic derivations in formal linguistics and logic, where deeply nested structures are common. 
+	
+	Due to the usefulness and growing demand for bracket colorization beyond its original pedagogical context in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, the feature was separated into a standalone package, \texttt{'rainbowbrackets'}. This modularization allows the functionality to be reused across a broader range of \LaTeX projects, independent of the specific goals of \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}}. In its new form, \texttt{'rainbowbrackets'} introduces additional features such as multiple coloring styles, improved customization options, and enhanced compatibility. Moreover, isolating the feature into its own package facilitates better maintenance, easier debugging, and more focused development, ultimately making it a more robust and flexible tool for both educational and technical typesetting needs.
+	
+	\section{Examples}
+	As an example see: \\\verb=\begin{rb}(level1(level2(level3)))\end{rb}= which results in: \begin{rb}(level1(level2(level3)))\end{rb}.
+	To change the colors one needs to manually override the colors \textit{rbbcpcolor0} to \textit{rbbcpcolor9} like this: \\\verb=\definecolor{rbbcpcolor9}{RGB}{000, 000, 000}=.
+	\\\ \\Default color scheme: \\\begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}
+	\setrainbowbracketmax{3}
+	\\Default color scheme max three colors: \\\begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}
+	\resetrainbowbracketmax
+	\\Default color scheme bold: 
+	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
+	\setrbstyleneon
+	\\Neon color scheme bold: 
+	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
+	\setrbstylepastel
+	\\Pastel color scheme bold: 
+	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
+	\resetrbstyle
+	\section{Usage}
+	To use the \texttt{'rainbowbrackets'} package place the 'rainbowbrackets.sty' file in the same folder as your document and include:
+	\begin{lstlisting}[style=A]
+			\usepackage{rainbowbrackets}
+	\end{lstlisting}
+	\subsection{Package Options}
+	To combine multiple package options use ',' like:
+	\begin{lstlisting}[style=A]
+			\usepackage[max=5, stylee=neon]{rainbowbrackets}
+	\end{lstlisting}
+	\subsubsection{style}
+	\begin{lstlisting}[style=A]
+			\usepackage[stylee=STYLE]{rainbowbrackets}
+	\end{lstlisting}
+	This option will effect the default color scheme. The default ist set to \texttt{'default'}, valid options are:
+	\begin{itemizeexample}
+		\item[-] default \begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] neon \setrbstyleneon\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] pastel \setrbstylepastel\begin{rb}((((((((((()))))))))))\end{rb}\resetrbstyle
+	\end{itemizeexample}
+	\subsubsection{max}
+	\begin{lstlisting}[style=A]
+			\usepackage[max=VALUE]{rainbowbrackets}
+	\end{lstlisting}
+	This option will define at which level the coloring starts repeating. The maximum is 10, the minimum is 2. The default ist set to \texttt{'10'}.
+	\begin{itemizeexample}
+		\item[-] 2 \setrainbowbracketmax{2}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] 4 \setrainbowbracketmax{4}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] 7 \setrainbowbracketmax{7}\begin{rb}((((((((((()))))))))))\end{rb}
+	\end{itemizeexample}
+	\section{Commands}
+	This section lists all commands.
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\begin{rb}content\end{rb}
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Parentheses on the same nesting level will receive the same color.
+			\item[] Example: \begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\begin{rB}content\end{rB}
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Same as \textit{rb} environment but all parentheses are in bold mode.
+			\item[] Example: \begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+			\item[] \begin{lstlisting}[style=B]
+			\setrainbowbracketmax{value}
+			\end{lstlisting}
+			{\scriptsize
+				\item[] Arguments:\begin{itemizeexamplecommand}
+					\item[] \texttt{value}: The maximal coloring level
+				\end{itemizeexamplecommand}
+				\item[] Description: Changes the maximaal coloring level mid document. Allowed are integers from 2 to 10.}
+		\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\resetrainbowbracketmax
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Resets the max coloring level to the package default.}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\setrbstyledefault
+			\setrbstyleneon
+			\setrbstylepastel
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Changes the color scheme mid document to the specified style.}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\resetrbstyle
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Resets the color scheme to the package default.}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\definecolor{rbbcpcolor0}{HTML}{value}
+			\definecolor{rbbcpcolor1}{HTML}{value}
+			\definecolor{rbbcpcolor2}{HTML}{value}
+			\definecolor{rbbcpcolor3}{HTML}{value}
+			\definecolor{rbbcpcolor4}{HTML}{value}
+			\definecolor{rbbcpcolor5}{HTML}{value}
+			\definecolor{rbbcpcolor6}{HTML}{value}
+			\definecolor{rbbcpcolor7}{HTML}{value}
+			\definecolor{rbbcpcolor8}{HTML}{value}
+			\definecolor{rbbcpcolor9}{HTML}{value}
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: To change the color scheme to a custom scheme, override these colors. Due to a current bug, rbbcpcolor0 has to be black.}
+	\end{itemizeexamplecommand}
+	\xe
+	\section{Known Bugs}
+	\begin{enumerate}
+		\item[-] No coloring when parentheses are generated via another macro within the \textit{rb} environment.
+	\end{enumerate}
+	\section{Changelog}
+	\begin{itemize}
+		\item[1.0.0] 
+		\begin{enumerate}
+			\item[-] Initial release.
+		\end{enumerate}
+	\end{itemize}
+\end{document}

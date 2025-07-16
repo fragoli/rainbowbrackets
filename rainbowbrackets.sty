@@ -1,0 +1,170 @@
+% rainbowbrackets v. 1.0.0 y. 2025
+% 
+% Copyright (C) 2025 Paul Eduard Koenig
+% pauleduardkoenig (at) gmail [dot] com
+% Goethe University Frankfurt, Institute of Linguistics
+%
+% --------------------------------
+% 
+% Provides automatic coloring of nested parentheses using a configurable color cycle.
+% Tracks nesting depth with a counter and warns about unbalanced parentheses at end of document.
+% 
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in:
+% http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of
+% LaTeX version 2008-05-04 or later.
+% 
+% This work has the LPPL maintenance status `maintained'.
+% The Current Maintainer of this work is Paul Eduard Koenig.
+% This work consists of the files rainbowbrackets.sty and rainbowbrackets_doc.tex
+%
+% ------------------------------------------------------------ 
+% header
+% ------------------------------------------------------------ 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rainbowbrackets}[2025-07-16 v. 1.0.0 LaTeX package that colors parentheses on the same nesting level with a matching color.]
+\RequirePackage{xparse, xcolor, expl3, kvoptions}
+
+\SetupKeyvalOptions{
+	family=RB,
+	prefix=RB@
+}
+\DeclareStringOption[default]{style}
+\DeclareStringOption[10]{max}
+\ProcessKeyvalOptions*
+
+\let\@rbmaxbackup\RB@max
+\NewDocumentCommand{\setrainbowbracketmax}{m}{%
+\def\RB@max{#1}%
+}
+\NewDocumentCommand{\resetrainbowbracketmax}{}{%
+\def\RB@max{\@rbmaxbackup}%
+}
+
+\newcommand{\setrbstyledefault}{%
+\definecolor{rbbcpcolor0}{HTML}{000000}%
+\definecolor{rbbcpcolor1}{HTML}{b4611E}%
+\definecolor{rbbcpcolor2}{HTML}{3CB44B}%
+\definecolor{rbbcpcolor3}{HTML}{4363D8}%
+\definecolor{rbbcpcolor4}{HTML}{F58231}%
+\definecolor{rbbcpcolor5}{HTML}{911EB4}%
+\definecolor{rbbcpcolor6}{HTML}{B41E2D}%
+\definecolor{rbbcpcolor7}{HTML}{7BB41E}%
+\definecolor{rbbcpcolor8}{HTML}{B41E93}%
+\definecolor{rbbcpcolor9}{HTML}{FFE119}%
+}
+
+\newcommand{\setrbstyleneon}{%
+\definecolor{rbbcpcolor0}{HTML}{000000}%
+\definecolor{rbbcpcolor1}{HTML}{001EFF}%
+\definecolor{rbbcpcolor2}{HTML}{39FF14}%
+\definecolor{rbbcpcolor3}{HTML}{FFFF00}% 
+\definecolor{rbbcpcolor4}{HTML}{FF00FF}%
+\definecolor{rbbcpcolor5}{HTML}{00FFFF}% 
+\definecolor{rbbcpcolor6}{HTML}{FFA500}% 
+\definecolor{rbbcpcolor7}{HTML}{FF0000}%
+\definecolor{rbbcpcolor8}{HTML}{FF6600}%
+\definecolor{rbbcpcolor9}{HTML}{74EE15}%
+}
+
+\newcommand{\setrbstylepastel}{%
+\definecolor{rbbcpcolor0}{HTML}{000000}%
+\definecolor{rbbcpcolor1}{HTML}{66c5cc}%
+\definecolor{rbbcpcolor2}{HTML}{f6cf71}%
+\definecolor{rbbcpcolor3}{HTML}{dcb0f2}%
+\definecolor{rbbcpcolor4}{HTML}{f89c74}%
+\definecolor{rbbcpcolor5}{HTML}{87c55f}%
+\definecolor{rbbcpcolor6}{HTML}{9eb9f3}%
+\definecolor{rbbcpcolor7}{HTML}{fe88b1}%
+\definecolor{rbbcpcolor8}{HTML}{c9db74}%
+\definecolor{rbbcpcolor9}{HTML}{8be0a4}%
+}
+
+\newcommand{\resetrbstyle}{\setrbstyledefault}
+
+\def\@rbstyledefault{default}
+\ifx\RB@style\@rbstyledefault
+\setrbstyledefault
+\fi
+
+\def\@rbstyleneon{neon}
+\ifx\RB@style\@rbstyleneon
+\setrbstyleneon
+\renewcommand{\resetrbstyle}{\setrbstyleneon}
+\fi
+
+\def\@rbstylepastel{pastel}
+\ifx\RB@style\@rbstylepastel
+\setrbstylepastel
+\renewcommand{\resetrbstyle}{\setrbstylepastel}
+\fi
+
+\newcounter{@rbbparenscounter}
+\newcommand{\@countlparen}{\addtocounter{@rbbparenscounter}{1}\@rbbrainbow{\@rblparen}}
+\newcommand{\@countrparen}{\@rbbrainbow{\@rbrparen}\addtocounter{@rbbparenscounter}{-1}}
+
+\newcommand{\@countlpareN}{\addtocounter{@rbbparenscounter}{1}\@rbbrainbowbf{\@rblparen}}
+\newcommand{\@countrpareN}{\@rbbrainbowbf{\@rbrparen}\addtocounter{@rbbparenscounter}{-1}}
+
+\begingroup
+\catcode`(\active
+\catcode`)\active
+\gdef\@count@rbbparenscounter{%
+\let(\@countlparen%
+\let)\@countrparen%
+}
+\gdef\@count@rbbparenscounteR{%
+\let(\@countlpareN%
+\let)\@countrpareN%
+}
+\endgroup
+
+\let\@rblparen(
+\let\@rbrparen)
+\newenvironment{rb}{\catcode`(\active\catcode`)\active\@count@rbbparenscounter}{\ifnum\value{@rbbparenscounter}=-1\relax\else\ifnum\value{@rbbparenscounter}<0\relax\PackageWarning{rainbowbrackets}{Unbalanced parentheses detected! Counter value is \number\numexpr\value{@rbbparenscounter}+1\relax. Did you forget an opening parenthesis?}\else\PackageWarning{rainbowbrackets}{Unbalanced parentheses detected! Counter value is \number\numexpr\value{@rbbparenscounter}+1\relax. Did you forget a closing parenthesis?}\fi\fi\setcounter{@rbbparenscounter}{0}}
+\newenvironment{rB}{\catcode`(\active\catcode`)\active\@count@rbbparenscounteR}{\ifnum\value{@rbbparenscounter}=-1\relax\else\ifnum\value{@rbbparenscounter}<0\relax\PackageWarning{rainbowbrackets}{Unbalanced parentheses detected! Counter value is \number\numexpr\value{@rbbparenscounter}+1\relax. Did you forget an opening parenthesis?}\else\PackageWarning{rainbowbrackets}{Unbalanced parentheses detected! Counter value is \number\numexpr\value{@rbbparenscounter}+1\relax. Did you forget a closing parenthesis?}\fi\fi\setcounter{@rbbparenscounter}{0}}
+
+
+\ExplSyntaxOn
+
+\cs_new:Npn \RB_get_modulo_max: {
+  \int_eval:n { \RB@max }
+}
+
+\NewDocumentCommand{\@rbbrainbow}{m}
+{%
+\modswitch_fixed_counter:n {#1}%
+}
+
+\NewDocumentCommand{\@rbbrainbowbf}{m}
+{%
+\modswitch_fixed_counter:n {\textbf{#1}}%
+}
+
+\cs_new_protected:Npn \modswitch_fixed_counter:n #1
+ {
+  % Read value from counter
+  \int_set:Nn \l_tmpa_int { \int_mod:nn { \value{@rbbparenscounter} } { \RB_get_modulo_max: } }
+
+  % Perform "switch-case" logic
+  \int_case:nnF { \l_tmpa_int }
+   {
+    { 0 } {\textcolor{rbbcpcolor1}{#1}}
+    { 1 } {\textcolor{rbbcpcolor0}{#1}}
+    { 2 } {\textcolor{rbbcpcolor2}{#1}}
+    { 3 } {\textcolor{rbbcpcolor3}{#1}}
+    { 4 } {\textcolor{rbbcpcolor4}{#1}}
+	{ 5 } {\textcolor{rbbcpcolor5}{#1}}
+	{ 6 } {\textcolor{rbbcpcolor6}{#1}}
+	{ 7 } {\textcolor{rbbcpcolor7}{#1}}
+	{ 8 } {\textcolor{rbbcpcolor8}{#1}}
+	{ 9 } {\textcolor{rbbcpcolor9}{#1}}
+   }
+   {\textcolor{rbbcpcolor0}{#1}}
+}
+
+\ExplSyntaxOff
+
