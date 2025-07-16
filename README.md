@@ -1,5 +1,5 @@
 # RainbowBrackets v. 1.0.0 \y 2025
-> Collection of LaTeX commands used by the institute of linguistics - Goethe University Frankfurt
+> Part of a collection of LaTeX commands used by the institute of linguistics - Goethe University Frankfurt
 
 Provides automatic coloring of nested parentheses using a configurable color cycle.
 
