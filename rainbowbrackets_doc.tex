@@ -1,4 +1,4 @@
-% rainbowbrackets v. 1.0.0 y. 2025
+% RainbowBrackets v. 1.1.1 y. 2025
 % 
 % Copyright (C) 2025 Paul Eduard Koenig
 % pauleduardkoenig (at) gmail [dot] com
@@ -22,7 +22,7 @@
 % This work consists of the files rainbowbrackets.sty and rainbowbrackets_doc.tex
 
 \documentclass[10pt, a4paper]{article}
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks, colorlinks=true]{hyperref}
 \usepackage[left=2.5cm, right=2.0cm, top=1cm, bottom=1cm, includeheadfoot]{geometry}
 \usepackage{enumerate}
 \usepackage{babel}
@@ -94,7 +94,7 @@
 %---------------------------------------------------------------- START --------------------------------------------
 
 \title{Rainbow Brackets\\Documentation for the \LaTeX\ package \texttt{'rainbowbrackets'}}
-\author{rainbowbrackets \textbackslash v 1.0.0\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
+\author{rainbowbrackets \textbackslash v 1.1.1\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
 
 
 \begin{document}
@@ -119,10 +119,10 @@
 	\resetrainbowbracketmax
 	\\Default color scheme bold: 
 	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
-	\setrbstyleneon
+	\setrbstyle{neon}
 	\\Neon color scheme bold: 
 	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
-	\setrbstylepastel
+	\setrbstyle{pastel}
 	\\Pastel color scheme bold: 
 	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
 	\resetrbstyle
@@ -136,15 +136,18 @@
 	\begin{lstlisting}[style=A]
 			\usepackage[max=5, stylee=neon]{rainbowbrackets}
 	\end{lstlisting}
-	\subsubsection{style}
+	\subsubsection{style}\label{sub:style}
 	\begin{lstlisting}[style=A]
-			\usepackage[stylee=STYLE]{rainbowbrackets}
+			\usepackage[style=STYLE]{rainbowbrackets}
 	\end{lstlisting}
 	This option will effect the default color scheme. The default ist set to \texttt{'default'}, valid options are:
 	\begin{itemizeexample}
 		\item[-] default \begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] neon \setrbstyleneon\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] pastel \setrbstylepastel\begin{rb}((((((((((()))))))))))\end{rb}\resetrbstyle
+		\item[-] neon \setrbstyle{neon}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] pastel \setrbstyle{pastel}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] spectral \setrbstyle{spectral}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] dualpolar \setrbstyle{dualpolar}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] warning \setrbstyle{warning}\begin{rb}((((((((((()))))))))))\end{rb}\resetrbstyle
 	\end{itemizeexample}
 	\subsubsection{max}
 	\begin{lstlisting}[style=A]
@@ -197,12 +200,10 @@
 	\xe
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\setrbstyledefault
-			\setrbstyleneon
-			\setrbstylepastel
+			\setrbstyle{STYLE}
 		\end{lstlisting}
 		{\scriptsize
-			\item[] Description: Changes the color scheme mid document to the specified style.}
+			\item[] Description: Changes the color scheme mid document to the specified style. For a list of styles see Section \ref{sub:style}. If the specified style is unknown the default style is selected.}
 	\end{itemizeexamplecommand}
 	\xe
 	\pex\begin{itemizeexamplecommand}
@@ -236,9 +237,18 @@
 	\end{enumerate}
 	\section{Changelog}
 	\begin{itemize}
+		\item[1.1.1] 
+		\begin{enumerate}
+			\item[-] Add new styles
+			\item[-] Refactored style system.
+			\item[-] Fix typos.
+			\item[-] Added missing credits!
+		\end{enumerate}
 		\item[1.0.0] 
 		\begin{enumerate}
 			\item[-] Initial release.
 		\end{enumerate}
 	\end{itemize}
+	\section{Acknowledgments}
+	This package builds upon foundational work by \href{https://tex.stackexchange.com/users/575/ryan-reich}{Ryan Reich} and \href{https://tex.stackexchange.com/users/21891/jub0bs}{jub0bs}, whose implementations for coloring nested parentheses in TeX (as shared on TeX StackExchange \href{https://tex.stackexchange.com/questions/88682/indicating-matching-brackets-parentheses-in-tex-output }{Contribution A}  and \href{https://tex.stackexchange.com/questions/235740/how-can-i-color-parentheses-depending-on-the-nesting-level-like-emacs-rainbow}{Contribution B} ) provided key conceptual and technical insights. \href{mailto:matthew.towers@gmail.com}{Matthew Towers} subsequently combined their approaches to produce an initial implementation of \href{https://github.com/matthew-towers/latex-rainbow}{latex-rainbow}, which this package further develops.
 \end{document}
