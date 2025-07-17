@@ -1,4 +1,4 @@
-# RainbowBrackets v. 1.0.0 \y 2025
+# RainbowBrackets v. 1.1.1 \y 2025
 > Part of a collection of LaTeX commands used by the institute of linguistics - Goethe University Frankfurt
 
 Provides automatic coloring of nested parentheses using a configurable color cycle.
@@ -14,11 +14,15 @@ The primary function of this package is to replicate a common feature found in m
 
 ## Authors
 
-ex. Paul Eduard Koenig 
-(uses code from work by Ryan Reich and Matthew Towers)
+ex. Paul Eduard Koenig (based on work from Ryan Reich, jub0bs, and Matthew Towers)
 
 ## Version History
 
+* 1.1.1
+    * Add new styles
+    * Refactored style system.
+    * Fix typos.
+    * Added missing credits!
 * 1.0.0
     * Initial Release
 
