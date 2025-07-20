@@ -1,4 +1,4 @@
-% RainbowBrackets v. 1.1.1 y. 2025
+% RainbowBrackets v. 1.2.1 y. 2025
 % 
 % Copyright (C) 2025 Paul Eduard Koenig
 % pauleduardkoenig (at) gmail [dot] com
@@ -22,7 +22,12 @@
 % This work consists of the files rainbowbrackets.sty and rainbowbrackets_doc.tex
 
 \documentclass[10pt, a4paper]{article}
-\usepackage[hidelinks, colorlinks=true]{hyperref}
+\usepackage[colorlinks = true,
+citecolor  = GoetheBlue,
+linkcolor  = GoetheBlue,
+urlcolor   = GoetheBlue,
+unicode
+]{hyperref}
 \usepackage[left=2.5cm, right=2.0cm, top=1cm, bottom=1cm, includeheadfoot]{geometry}
 \usepackage{enumerate}
 \usepackage{babel}
@@ -31,7 +36,7 @@
 \usepackage{listings}
 \usepackage{showexpl}
 \usepackage{expex}
-
+\definecolor{GoetheBlue}{rgb}{0,0.38,0.56}
 \lstdefinestyle{Common}
 {
 	language={[LaTeX]TeX},
@@ -89,12 +94,12 @@
 	\end{itemize}
 }
 \newlength{\halb}				\setlength{\halb}{0.5\textwidth}				\addtolength{\halb}{-1mm}
-
+\setcounter{tocdepth}{2}
 
 %---------------------------------------------------------------- START --------------------------------------------
 
 \title{Rainbow Brackets\\Documentation for the \LaTeX\ package \texttt{'rainbowbrackets'}}
-\author{rainbowbrackets \textbackslash v 1.1.1\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
+\author{rainbowbrackets \textbackslash v 1.2.1\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
 
 
 \begin{document}
@@ -106,26 +111,32 @@
 	\section{Background}
 	The rainbow brackets (or colored parentheses) feature originates from modern integrated development environments (IDEs), where it is commonly used to visually distinguish matching pairs of brackets, braces, and parentheses by applying distinct colors at each level of nesting. This technique is especially prevalent in programming and technical writing, where complex, deeply nested structures are common. By assigning consistent colors to matching delimiters, it enhances code readability and reduces the cognitive load required to trace nested scopes, thereby helping users quickly identify structural errors or imbalances. Its integration into LaTeX through the rainbowbrackets package brings these benefits to mathematical and technical documents, supporting clearer comprehension of intricate formulas and expressions.
 	
-	The concept originated in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, where it was employed primarily for educational purposes. Specifically, it was designed to support the teaching of complex semantic derivations in formal linguistics and logic, where deeply nested structures are common. 
+	The concept was first used in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, where it was employed primarily for educational purposes (the code used there originated from an intial implementation by \href{https://github.com/matthew-towers}{Matthew Towers}, see Section \ref{sec:acknowledgments}). Specifically, it was used to support the teaching of complex semantic derivations in formal linguistics and logic, where deeply nested structures are common. 
 	
-	Due to the usefulness and growing demand for bracket colorization beyond its original pedagogical context in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, the feature was separated into a standalone package, \texttt{'rainbowbrackets'}. This modularization allows the functionality to be reused across a broader range of \LaTeX projects, independent of the specific goals of \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}}. In its new form, \texttt{'rainbowbrackets'} introduces additional features such as multiple coloring styles, improved customization options, and enhanced compatibility. Moreover, isolating the feature into its own package facilitates better maintenance, easier debugging, and more focused development, ultimately making it a more robust and flexible tool for both educational and technical typesetting needs.
+	Due to the usefulness and growing demand for bracket colorization beyond its original pedagogical context in the \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}} package, the feature was separated into a standalone package, \texttt{'rainbowbrackets'}. This modularization allows the functionality to be reused across a broader range of \LaTeX\ projects, independent of the specific goals of \texttt{\href{https://ctan.org/pkg/fragoli}{fragoli}}. In its new form, \texttt{'rainbowbrackets'} introduces additional features such as multiple coloring styles, improved customization options, and enhanced compatibility. Moreover, isolating the feature into its own package facilitates better maintenance, easier debugging, and more focused development, ultimately making it a more robust and flexible tool for both educational and technical typesetting needs.
 	
-	\section{Examples}
+	\section{Examples}\label{sec:examples}
 	As an example see: \\\verb=\begin{rb}(level1(level2(level3)))\end{rb}= which results in: \begin{rb}(level1(level2(level3)))\end{rb}.
 	To change the colors one needs to manually override the colors \textit{rbbcpcolor0} to \textit{rbbcpcolor9} like this: \\\verb=\definecolor{rbbcpcolor9}{RGB}{000, 000, 000}=.
 	\\\ \\Default color scheme: \\\begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}
-	\setrainbowbracketmax{3}
+	\rbsetbracketmax{3}
 	\\Default color scheme max three colors: \\\begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}
-	\resetrainbowbracketmax
+	\rbresetbracketmax
 	\\Default color scheme bold: 
-	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
-	\setrbstyle{neon}
+	\\\begin{rbb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rbb}
+	\rbsetstyle{neon}
 	\\Neon color scheme bold: 
-	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
-	\setrbstyle{pastel}
+	\\\begin{rbb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rbb}
+	\rbsetstyle{pastel}
 	\\Pastel color scheme bold: 
-	\\\begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}
-	\resetrbstyle
+	\\\begin{rbb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rbb}
+	\rbresetstyle
+	\\Replace all parentheses with curly brackets: \\\verb=\begin{rb}[\ensuremath{\{}][\ensuremath{\}}](level1(level2(level3)))\end{rb}=
+	\\\begin{rb}[\ensuremath{\{}][\ensuremath{\}}](level1(level2(level3)))\end{rb}.
+	\\Change brackets to curly brackets half way with custom local rbracket: \\\verb=\begin{rb}[\rbparenl][\ensuremath{>}](level1(level2\rbsetlbracket{\ensuremath{\{}}=
+	\\\verb=\rbsetrbracket{\ensuremath{\}}}(level3)\rbresetbrackets))\end{rb}=
+	\\\begin{rb}[\rbparenl][\ensuremath{>}](level1(level2\rbsetlbracket{\ensuremath{\{}}\rbsetrbracket{\ensuremath{\}}}(level3)\rbresetbrackets))\end{rb}.
+	\\The final example illustrates a workaround necessitated by the package’s method of parsing optional parameters. Specifically, it is not possible to directly use '()' as local custom bracket symbols, as the environment interprets them as commands, disrupting the argument parsing process. To circumvent this limitation, '()' are instead stored in the macros \verb=\rbparenl= and \verb=\rbparenr=. This approach enables the use of '()' as local bracket symbols within the \textit{rb} environment(s).
 	\section{Usage}
 	To use the \texttt{'rainbowbrackets'} package place the 'rainbowbrackets.sty' file in the same folder as your document and include:
 	\begin{lstlisting}[style=A]
@@ -134,7 +145,7 @@
 	\subsection{Package Options}
 	To combine multiple package options use ',' like:
 	\begin{lstlisting}[style=A]
-			\usepackage[max=5, stylee=neon]{rainbowbrackets}
+			\usepackage[max=5, style=neon]{rainbowbrackets}
 	\end{lstlisting}
 	\subsubsection{style}\label{sub:style}
 	\begin{lstlisting}[style=A]
@@ -143,45 +154,90 @@
 	This option will effect the default color scheme. The default ist set to \texttt{'default'}, valid options are:
 	\begin{itemizeexample}
 		\item[-] default \begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] neon \setrbstyle{neon}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] pastel \setrbstyle{pastel}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] spectral \setrbstyle{spectral}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] dualpolar \setrbstyle{dualpolar}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] warning \setrbstyle{warning}\begin{rb}((((((((((()))))))))))\end{rb}\resetrbstyle
+		\item[-] neon \rbsetstyle{neon}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] pastel \rbsetstyle{pastel}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] spectral \rbsetstyle{spectral}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] dualpolar \rbsetstyle{dualpolar}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] warning \rbsetstyle{warning}\begin{rb}((((((((((()))))))))))\end{rb}\rbresetstyle
 	\end{itemizeexample}
 	\subsubsection{max}
 	\begin{lstlisting}[style=A]
 			\usepackage[max=VALUE]{rainbowbrackets}
 	\end{lstlisting}
-	This option will define at which level the coloring starts repeating. The maximum is 10, the minimum is 2. The default ist set to \texttt{'10'}.
+	This option will define at which level the coloring starts repeating. The minimum is 2, the maximum is 10. The default ist set to \texttt{'10'}.
 	\begin{itemizeexample}
-		\item[-] 2 \setrainbowbracketmax{2}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] 4 \setrainbowbracketmax{4}\begin{rb}((((((((((()))))))))))\end{rb}
-		\item[-] 7 \setrainbowbracketmax{7}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] 2 \rbsetbracketmax{2}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] 4 \rbsetbracketmax{4}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] 7 \rbsetbracketmax{7}\begin{rb}((((((((((()))))))))))\end{rb}
 	\end{itemizeexample}
+	\subsubsection{lbracket/rbracket}
+	\begin{lstlisting}[style=A]
+			\usepackage[lbracket={LEFTBRACKETSYMBOL}, rbracket={RIGHTBRACKETSYMBOL}]{rainbowbrackets}
+	\end{lstlisting}
+	This option(s) will define the global bracket symbols that will be used to replace the parenthesis in an \textit{rb} environment. It is possible to change only one the left or the right bracket symbol individually. The defaults are set '(' and ')' respectively.
 	\section{Commands}
 	This section lists all commands.
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\begin{rb}content\end{rb}
+			\begin{rb}[lbracket][rbracket]
+				content...
+			\end{rb}
 		\end{lstlisting}
 		{\scriptsize
-			\item[] Description: Parentheses on the same nesting level will receive the same color.
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{lbracket(def='(')}: The left bracket symbol.
+				\item[] \texttt{rbracket(def=')')}: The left bracket symbol.
+			\end{itemizeexamplecommand}
+			\item[] Description: Parentheses on the same nesting level will receive the same color. Setting \textit{lbracket} and \textit{rbracket} to custom values will replace every () with the passed values. To set the bracket arguments to '()' use \verb=\rbparenl= and \verb=\rbparenr= respectively (see Section \ref{sec:examples} for details).
 			\item[] Example: \begin{rb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rb}}
 	\end{itemizeexamplecommand}
 	\xe
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\begin{rB}content\end{rB}
+			\begin{rbb}[lbracket][rbracket]
+				content...
+			\end{rbb}
 		\end{lstlisting}
 		{\scriptsize
-			\item[] Description: Same as \textit{rb} environment but all parentheses are in bold mode.
-			\item[] Example: \begin{rB}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rB}}
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{lbracket(def='(')}: The left bracket symbol.
+				\item[] \texttt{rbracket(def=')')}: The left bracket symbol.
+				\end{itemizeexamplecommand}
+			\item[] Description: Same as \textit{rb} environment but all parentheses are in bold mode. Setting \textit{lbracket} and \textit{rbracket} to custom values will replace every () with the passed values. To set the bracket arguments to '()' use \verb=\rbparenl= and \verb=\rbparenr= respectively (see Section \ref{sec:examples} for details).
+			\item[] Example: \begin{rbb}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rbb}}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\begin{rbi}[lbracket][rbracket]
+				content...
+			\end{rbi}
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{lbracket(def='(')}: The left bracket symbol.
+				\item[] \texttt{rbracket(def=')')}: The left bracket symbol.
+			\end{itemizeexamplecommand}
+			\item[] Description: Same as \textit{rb} environment but all parentheses are in italic mode. Setting \textit{lbracket} and \textit{rbracket} to custom values will replace every () with the passed values. To set the bracket arguments to '()' use \verb=\rbparenl= and \verb=\rbparenr= respectively (see Section \ref{sec:examples} for details).
+			\item[] Example: \begin{rbi}(level0(level1((level3(level4(level5(level6(level7(level8(level9)))))))level2)))\end{rbi}}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\rbsetnormalmode
+			\rbsetboldmode
+			\rbsetitalicmode
+			\rbresetmode
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: To change the text mode within a \textit{rb} environment, use one of the commands. To reset the mode to the environment default use \verb=\rbresetmode=. To change the text mode to a custom mode within an \textit{rb} environment the transformer command has to be renewed \verb=\renewcommand{\rbtransformer}[1]{#1}=. The transformer will be resettet each time a new \textit{rb} environment is used.
+			\item[] Example: \verb=\begin{rbi}(level0(level1((level3(level4\rbsetboldmode(level5(level6))\rbresetmode))level2)))\end{rbi}=\\Will produce: \begin{rbi}(level0(level1((level3(level4\rbsetboldmode(level5(level6))\rbresetmode))level2)))\end{rbi}
+			\item[] Example:\\ \verb=\begin{rbi}(level0(level1(\renewcommand{\rbtransformer}[1]{\underline{#1}}(level5(level6))\rbresetmode)))\end{rbi}=\\Will produce: \begin{rbi}(level0(level1(\renewcommand{\rbtransformer}[1]{\underline{#1}}(level5(level6))\rbresetmode)))\end{rbi}}
 	\end{itemizeexamplecommand}
 	\xe
 	\pex\begin{itemizeexamplecommand}
 			\item[] \begin{lstlisting}[style=B]
-			\setrainbowbracketmax{value}
+			\rbsetbracketmax{value}
 			\end{lstlisting}
 			{\scriptsize
 				\item[] Arguments:\begin{itemizeexamplecommand}
@@ -192,7 +248,7 @@
 	\xe
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\resetrainbowbracketmax
+			\rbresetbracketmax
 		\end{lstlisting}
 		{\scriptsize
 			\item[] Description: Resets the max coloring level to the package default.}
@@ -200,15 +256,18 @@
 	\xe
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\setrbstyle{STYLE}
+			\rbsetstyle{style}
 		\end{lstlisting}
 		{\scriptsize
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{style}: The color scheme to be used
+			\end{itemizeexamplecommand}
 			\item[] Description: Changes the color scheme mid document to the specified style. For a list of styles see Section \ref{sub:style}. If the specified style is unknown the default style is selected.}
 	\end{itemizeexamplecommand}
 	\xe
 	\pex\begin{itemizeexamplecommand}
 		\item[] \begin{lstlisting}[style=B]
-			\resetrbstyle
+			\rbresetstyle
 		\end{lstlisting}
 		{\scriptsize
 			\item[] Description: Resets the color scheme to the package default.}
@@ -228,15 +287,71 @@
 			\definecolor{rbbcpcolor9}{HTML}{value}
 		\end{lstlisting}
 		{\scriptsize
-			\item[] Description: To change the color scheme to a custom scheme, override these colors. Due to a current bug, rbbcpcolor0 has to be black.}
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{value}: The color code in hex.
+			\end{itemizeexamplecommand}
+			\item[] Description: To change the color scheme to a custom scheme, override these colors. These commands are defined by the \href{https://ctan.org/pkg/xcolor}{xcolor} package.}
 	\end{itemizeexamplecommand}
 	\xe
-	\section{Known Bugs}
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\rbdisable
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Disables coloring mid document.}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\rbenable
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Enables coloring again, sets color scheme to last selected style.}
+	\end{itemizeexamplecommand}
+	\xe
+	\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\rbsetlbracket{symbol}
+			\rbsetrbracket{symbol}
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Arguments:\begin{itemizeexamplecommand}
+				\item[] \texttt{symbol}: The new bracket symbol. (Use \verb=\ensuremath{text}= for symbols like \verb={}=)
+			\end{itemizeexamplecommand}
+			\item[] Description: Change the bracket symbol mid document. If used outside an \textit{rb} environment it will change the global bracket symbol, if used within a \textit{rb} environment it will only change the symbols within the current environment.}
+	\end{itemizeexamplecommand}
+	\xe
+		\pex\begin{itemizeexamplecommand}
+		\item[] \begin{lstlisting}[style=B]
+			\rbresetbrackets
+			\rbresetlbracket
+			\rbresetrbracket
+		\end{lstlisting}
+		{\scriptsize
+			\item[] Description: Resets the bracket symbol(s). If used outside an \textit{rb} environment it will reset the global bracket symbol(s) to the package default(s) (or the one(s) passed via the package arguments), if used within a \textit{rb} environment it will reset them to the current environment default(s).}
+	\end{itemizeexamplecommand}
+	\xe
+	\section{Known bugs and limitations}
+	Since curly brackets \verb={}= are integral to the \LaTeX\ syntax, automatic coloring of these brackets is likely infeasible. Similar constraints apply to square brackets \verb=[]=, due to their restriction to math mode. Solutions to these limitations are welcome.
+	\\\ \\Known bugs:
 	\begin{enumerate}
-		\item[-] No coloring when parentheses are generated via another macro within the \textit{rb} environment.
+		\item[-] No coloring when parentheses are generated via another macro within the \textit{rb} environment (getting the correct order of expansion to work as intended seems to be complicated... again a solution is welcome). \\Example: 
+		\\\verb=\newcommand{\test}{(level2test)}= 
+		\\\verb=\begin{rb}(level0(level1\test (level2)))\end{rb}= 
+		\\Will render as: \newcommand{\test}{(level2test)}
+		\begin{rb}(level0(level1\test (level2)))\end{rb}  
 	\end{enumerate}
 	\section{Changelog}
 	\begin{itemize}
+		\item[1.2.1] 
+		\begin{enumerate}
+			\item[-] Renamed some commands to get a cohesive command style (now all start with rb).
+			\item[-] Add optional package arguments to change bracket symbols.
+			\item[-] Add commands to change bracket symbols.
+			\item[-] Add new commands to temporarily disable coloring.
+			\item[-] Add new commands to temporarily change the text mode of the brackets.
+			\item[-] Add new italic environment.
+		\end{enumerate}
 		\item[1.1.1] 
 		\begin{enumerate}
 			\item[-] Add new styles
@@ -249,6 +364,6 @@
 			\item[-] Initial release.
 		\end{enumerate}
 	\end{itemize}
-	\section{Acknowledgments}
-	This package builds upon foundational work by \href{https://tex.stackexchange.com/users/575/ryan-reich}{Ryan Reich} and \href{https://tex.stackexchange.com/users/21891/jub0bs}{jub0bs}, whose implementations for coloring nested parentheses in TeX (as shared on TeX StackExchange \href{https://tex.stackexchange.com/questions/88682/indicating-matching-brackets-parentheses-in-tex-output }{Contribution A}  and \href{https://tex.stackexchange.com/questions/235740/how-can-i-color-parentheses-depending-on-the-nesting-level-like-emacs-rainbow}{Contribution B} ) provided key conceptual and technical insights. \href{mailto:matthew.towers@gmail.com}{Matthew Towers} subsequently combined their approaches to produce an initial implementation of \href{https://github.com/matthew-towers/latex-rainbow}{latex-rainbow}, which this package further develops.
+	\section{Acknowledgments}\label{sec:acknowledgments}
+	This package builds upon foundational work by \href{https://tex.stackexchange.com/users/575/ryan-reich}{Ryan Reich} and \href{https://tex.stackexchange.com/users/21891/jub0bs}{jub0bs}, whose implementations for coloring nested parentheses in TeX (as shared on TeX StackExchange \href{https://tex.stackexchange.com/questions/88682/indicating-matching-brackets-parentheses-in-tex-output }{Contribution A}  and \href{https://tex.stackexchange.com/questions/235740/how-can-i-color-parentheses-depending-on-the-nesting-level-like-emacs-rainbow}{Contribution B} ) provided key conceptual and technical insights. \href{https://github.com/matthew-towers}{Matthew Towers} subsequently combined their approaches to produce an initial implementation of \href{https://github.com/matthew-towers/latex-rainbow}{latex-rainbow}, which this package further develops.
 \end{document}
