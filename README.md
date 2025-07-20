@@ -1,4 +1,4 @@
-# RainbowBrackets v. 1.1.1 \y 2025
+# RainbowBrackets v. 1.2.1 \y 2025
 > Part of a collection of LaTeX commands used by the institute of linguistics - Goethe University Frankfurt
 
 Provides automatic coloring of nested parentheses using a configurable color cycle.
@@ -10,7 +10,7 @@ The primary function of this package is to replicate a common feature found in m
 ### Dependencies
 
 * {LaTeX2e}
-* {xparse, xcolor, expl3, kvoptions}
+* {xparse, xstring, xcolor, expl3, kvoptions}
 
 ## Authors
 
@@ -18,6 +18,13 @@ ex. Paul Eduard Koenig (based on work from Ryan Reich, jub0bs, and Matthew Tower
 
 ## Version History
 
+* 1.2.1
+	* Renamed some commands to get a cohesive command style (now all start with rb).
+	* Add optional package arguments to change bracket symbols.
+	* Add commands to change bracket symbols.
+	* Add new commands to temporarily disable coloring.
+	* Add new commands to temporarily change the text mode of the brackets.
+	* Add new italic environment.
 * 1.1.1
     * Add new styles
     * Refactored style system.
