@@ -1,4 +1,4 @@
-% RainbowBrackets v. 1.2.1 y. 2025
+% RainbowBrackets v. 1.3.2 y. 2025
 % 
 % Copyright (C) 2025 Paul Eduard Koenig
 % pauleduardkoenig (at) gmail [dot] com
@@ -28,8 +28,10 @@
 % The groundwork of this package is based on workd by Ryan Reich, jub0bs, and Matthew Towers
 %
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{rainbowbrackets}[2025-07-20 v. 1.2.1 LaTeX package that colors parentheses on the same nesting level with a matching color.]
+\ProvidesPackage{rainbowbrackets}[2025-08-05 v. 1.3.2 LaTeX package that colors parentheses on the same nesting level with a matching color.]
 \RequirePackage{xparse, xstring, xcolor, expl3, kvoptions}
+
+\def\@rbmaxfallbackvalue{10}
 
 \SetupKeyvalOptions{
 	family=RB,
@@ -38,23 +40,27 @@
 \DeclareStringOption[default]{style}
 \DeclareStringOption[(]{lbracket}
 \DeclareStringOption[)]{rbracket}
-\DeclareStringOption[10]{max}
+\DeclareStringOption[\@rbmaxfallbackvalue]{max}
 \ProcessKeyvalOptions*
 
-\let\@rbmaxbackup\RB@max
-\NewDocumentCommand{\rbsetbracketmax}{m}{%
+\NewDocumentCommand{\rbsetbracketmax}{m O{\RB@max} O{default}}{%
 \IfInteger{#1}{%
     \ifnum#1<2%
-      \PackageWarning{rainbowbrackets}{Color repearing maximum not in range [2-10], using default value!}%
+      \PackageWarning{rainbowbrackets}{Color repearing maximum not in range [2-10], using #3 value (#2)!}%
+	  \gdef\RB@max{\@rbmaxfallbackvalue}
     \else\ifnum#1>10%
-      \PackageWarning{rainbowbrackets}{Color repearing maximum not in range [2-10], using default value!}%
+      \PackageWarning{rainbowbrackets}{Color repearing maximum not in range [2-10], using #3 value (#2)!}%
+	  \gdef\RB@max{\@rbmaxfallbackvalue}
     \else%
       \def\RB@max{#1}%
     \fi\fi%
   }{%
-    \PackageWarning{rainbowbrackets}{Passed argument '#1' is not an integer, using default value as color repeating maximum!}
+    \PackageWarning{rainbowbrackets}{Passed argument '#1' is not an integer, using #3 value (#2) as color repeating maximum!}
+	\gdef\RB@max{\@rbmaxfallbackvalue}
   }%
 }
+\expandafter\rbsetbracketmax\expandafter{\RB@max}[\@rbmaxfallbackvalue][fallback]
+\let\@rbmaxbackup\RB@max
 \NewDocumentCommand{\rbresetbracketmax}{}{%
 \def\RB@max{\@rbmaxbackup}%
 }
@@ -106,7 +112,7 @@
 \newcommand{\rbsetrbracket}[1]{\renewcommand{\@rb@argB}{#1}}
 
 \let\rbparenl(
-\let\rbparenr(
+\let\rbparenr)
 
 \newenvironment{rb}{%
 \catcode`(\active%
@@ -171,16 +177,17 @@
 \int_new:N \l_index_int
 
 \cs_new_protected:Nn \rb_define_style_colors:n
-  {
-	\clist_set:Nx \l_colorcodes_clist { 000000 , b4611E , 3CB44B , 4363D8 , F58231 , 911EB4 , B41E2D , 7BB41E , B41E93 , FFE119 }
+  {%						Level			9		0		1		2			3		4		5		6		7			8
+	\clist_set:Nx \l_colorcodes_clist { b4611E , 000000 , 3CB44B , 4363D8 , F58231 , 911EB4 , B41E2D , 7BB41E , B41E93 , FFE119 }
 	\str_case:nnF { #1 }
       {
         { default }  {}
-        { neon }  { \clist_set:Nx \l_colorcodes_clist  { 000000, 001EFF , 39FF14 , FFFF00 , FF00FF, 00FFFF , FFA500 , FF0000 , FF6600 , 74EE15 } }
-        { pastel }  { \clist_set:Nx \l_colorcodes_clist  { 000000 , 66c5cc , f6cf71 , dcb0f2 , f89c74 , 87c55f , 9eb9f3 , fe88b1 , c9db74 , 8be0a4 } }
-        { spectral }  { \clist_set:Nx \l_colorcodes_clist  { 000000 , 9e0142 , 5e4fa2 , d53e4f , 3288bd , f46d43 , 66c2a5 , fee08b , abdda4 , e6f598 } }
-        { dualpolar }  { \clist_set:Nx \l_colorcodes_clist  { 000000 , a55a22 , 41b764, 5aad4e, 6da33a, 7c9829, 898d1b, 938114, 9b7414, a1671a} }
-        { warning }  { \clist_set:Nx \l_colorcodes_clist  { 000000 , 750000, ffb37d, ff9160, ff6e44, ff4928, ff1407, dd0000, b90000, 960000} }
+        { neon }  { \clist_set:Nx \l_colorcodes_clist  { 001EFF , 000000, 39FF14 , FFFF00 , FF00FF, 00FFFF , FFA500 , FF0000 , FF6600 , 74EE15 } }
+        { pastel }  { \clist_set:Nx \l_colorcodes_clist  { FF746C , 000000 , f6cf71 , dcb0f2 , f89c74 , 87c55f , 9eb9f3 , fe88b1 , c9db74 , 8be0a4 } }
+        { spectral }  { \clist_set:Nx \l_colorcodes_clist  { 9e0142 , 000000 , 5e4fa2 , d53e4f , 3288bd , f46d43 , 66c2a5 , fee08b , abdda4 , e6f598 } }
+        { dualpolar }  { \clist_set:Nx \l_colorcodes_clist  { a55a22 , 000000 , 41b764, 5aad4e, 6da33a, 7c9829, 898d1b, 938114, 9b7414, a1671a} }
+        { warning }  { \clist_set:Nx \l_colorcodes_clist  { 750000, 000000 , ffb37d, ff9160, ff6e44, ff4928, ff1407, dd0000, b90000, 960000} }
+        { java }  { \clist_set:Nx \l_colorcodes_clist  { 0DAA85, 000000 , 3F9101, 0E4A8E, BC0BA2, B4960A, AA0D25, 0D98AA, AA610D, 590DAA} }
         { disabled }  { \clist_set:Nx \l_colorcodes_clist  { 000000 , 000000, 000000, 000000, 000000, 000000, 000000, 000000, 000000, 000000} }
       }
       {\PackageWarning{rainbowbrackets}{Unknown~style~'#1',~using~default~style!}}
@@ -191,11 +198,21 @@
 			\int_incr:N \l_index_int%
 		  }
   }
-  
- \NewDocumentCommand{\disablerb}{}
-  {%
-    \rb_define_style_colors:n { disabled }%
-  }
+
+\cs_new:Npn \RB_get_modulo_max: {
+  \int_eval:n { \RB@max }
+}
+
+\NewDocumentCommand{\@rbbrainbow}{m}
+{%
+\int_set:Nn \l_tmpa_int { \int_mod:nn { \value{@rbbparenscounter} } { \RB_get_modulo_max: } }%
+\textcolor{rbbcpcolor\int_use:N \l_tmpa_int}{#1}%
+}
+
+\NewDocumentCommand{\rbdisable}{}
+{%
+\rb_define_style_colors:n { disabled }%
+}
 
 \NewDocumentCommand{\rbsetstyle}{m}
 {%
@@ -203,41 +220,9 @@
 \rb_define_style_colors:n { #1 }%
 }
 
-% Bracket coloring logic
-\cs_new:Npn \RB_get_modulo_max: {
-  \int_eval:n { \RB@max }
-}
-
-\NewDocumentCommand{\@rbbrainbow}{m}
-{%
-\modswitch_fixed_counter:n {#1}%
-}
-
-\cs_new_protected:Npn \modswitch_fixed_counter:n #1
- {
-  % Read value from counter
-  \int_set:Nn \l_tmpa_int { \int_mod:nn { \value{@rbbparenscounter} } { \RB_get_modulo_max: } }
-
-  % Perform "switch-case" logic
-  \int_case:nnF { \l_tmpa_int }
-   {
-    { 0 } {\textcolor{rbbcpcolor1}{#1}}
-    { 1 } {\textcolor{rbbcpcolor0}{#1}}
-    { 2 } {\textcolor{rbbcpcolor2}{#1}}
-    { 3 } {\textcolor{rbbcpcolor3}{#1}}
-    { 4 } {\textcolor{rbbcpcolor4}{#1}}
-	{ 5 } {\textcolor{rbbcpcolor5}{#1}}
-	{ 6 } {\textcolor{rbbcpcolor6}{#1}}
-	{ 7 } {\textcolor{rbbcpcolor7}{#1}}
-	{ 8 } {\textcolor{rbbcpcolor8}{#1}}
-	{ 9 } {\textcolor{rbbcpcolor9}{#1}}
-   }
-   {\textcolor{rbbcpcolor0}{#1}}
-}
 \ExplSyntaxOff
 \newcommand{\rbresetstyle}{\expandafter\rbsetstyle\expandafter{\RB@style}}%
 \newcommand{\rbenable}{\expandafter\rbsetstyle\expandafter{\@rbcurrentstyle}}%
-\newcommand{\rbdisable}{\rbsetstyle{}}%
 \expandafter\rbsetstyle\expandafter{\RB@style}%
 \endinput
 % End of file `rainbowbrackets.sty'.
