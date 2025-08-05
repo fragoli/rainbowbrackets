@@ -1,4 +1,4 @@
-# RainbowBrackets v. 1.2.1 \y 2025
+# RainbowBrackets v. 1.3.2 \y 2025
 > Part of a collection of LaTeX commands used by the institute of linguistics - Goethe University Frankfurt
 
 Provides automatic coloring of nested parentheses using a configurable color cycle.
@@ -18,6 +18,12 @@ ex. Paul Eduard Koenig (based on work from Ryan Reich, jub0bs, and Matthew Tower
 
 ## Version History
 
+* 1.3.2
+	* Add new style.
+	* Fix bug regarding \verb=\rbparenr= and \verb=\rbdisable= (thanks to Adelheid Bonnetsmüller).
+	* Fix bug that occured when passing an invalid max value as package argument.
+	* Fix wrong color in pastel style.
+	* Internal refactoring.
 * 1.2.1
 	* Renamed some commands to get a cohesive command style (now all start with rb).
 	* Add optional package arguments to change bracket symbols.
