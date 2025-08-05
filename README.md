@@ -20,7 +20,7 @@ ex. Paul Eduard Koenig (based on work from Ryan Reich, jub0bs, and Matthew Tower
 
 * 1.3.2
 	* Add new style.
-	* Fix bug regarding \verb=\rbparenr= and \verb=\rbdisable= (thanks to Adelheid Bonnetsmüller).
+	* Fix bug regarding \rbparenr and \rbdisable (thanks to Adelheid Bonnetsmüller).
 	* Fix bug that occured when passing an invalid max value as package argument.
 	* Fix wrong color in pastel style.
 	* Internal refactoring.
