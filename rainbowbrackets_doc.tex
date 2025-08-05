@@ -1,4 +1,4 @@
-% RainbowBrackets v. 1.2.1 y. 2025
+% RainbowBrackets v. 1.3.2 y. 2025
 % 
 % Copyright (C) 2025 Paul Eduard Koenig
 % pauleduardkoenig (at) gmail [dot] com
@@ -99,7 +99,7 @@ unicode
 %---------------------------------------------------------------- START --------------------------------------------
 
 \title{Rainbow Brackets\\Documentation for the \LaTeX\ package \texttt{'rainbowbrackets'}}
-\author{rainbowbrackets \textbackslash v 1.2.1\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
+\author{rainbowbrackets \textbackslash v 1.3.2\\Paul Eduard Koenig\\Goethe University Frankfurt,\\Institute of Linguistics\\\texttt{\href{mailto:pauleduardkoenig@gmail.com}{pauleduardkoenig@gmail.com}}}
 
 
 \begin{document}
@@ -158,6 +158,7 @@ unicode
 		\item[-] pastel \rbsetstyle{pastel}\begin{rb}((((((((((()))))))))))\end{rb}
 		\item[-] spectral \rbsetstyle{spectral}\begin{rb}((((((((((()))))))))))\end{rb}
 		\item[-] dualpolar \rbsetstyle{dualpolar}\begin{rb}((((((((((()))))))))))\end{rb}
+		\item[-] java \rbsetstyle{java}\begin{rb}((((((((((()))))))))))\end{rb}
 		\item[-] warning \rbsetstyle{warning}\begin{rb}((((((((((()))))))))))\end{rb}\rbresetstyle
 	\end{itemizeexample}
 	\subsubsection{max}
@@ -237,11 +238,13 @@ unicode
 	\xe
 	\pex\begin{itemizeexamplecommand}
 			\item[] \begin{lstlisting}[style=B]
-			\rbsetbracketmax{value}
+			\rbsetbracketmax{value}[fallbackvalue][errorinfo]
 			\end{lstlisting}
 			{\scriptsize
 				\item[] Arguments:\begin{itemizeexamplecommand}
 					\item[] \texttt{value}: The maximal coloring level
+					\item[] \texttt{fallbackvalue}: The value to fall back if the first argument is invalid (for package internal usage)
+					\item[] \texttt{errorinfo}: Information regarding the fallbackvalue source (for package internal usage)
 				\end{itemizeexamplecommand}
 				\item[] Description: Changes the maximaal coloring level mid document. Allowed are integers from 2 to 10.}
 		\end{itemizeexamplecommand}
@@ -338,11 +341,18 @@ unicode
 		\item[-] No coloring when parentheses are generated via another macro within the \textit{rb} environment (getting the correct order of expansion to work as intended seems to be complicated... again a solution is welcome). \\Example: 
 		\\\verb=\newcommand{\test}{(level2test)}= 
 		\\\verb=\begin{rb}(level0(level1\test (level2)))\end{rb}= 
-		\\Will render as: \newcommand{\test}{(level2test)}
-		\begin{rb}(level0(level1\test (level2)))\end{rb}  
+		\\Will render as: \newcommand{\test}{(level2test)}\begin{rb}(level0(level1\test (level2)))\end{rb}  
 	\end{enumerate}
 	\section{Changelog}
 	\begin{itemize}
+		\item[1.3.2] 
+		\begin{enumerate}
+			\item[-] Add new style.
+			\item[-] Fix bug regarding \verb=\rbparenr= and \verb=\rbdisable= (thanks to Adelheid Bonnetsmüller).
+			\item[-] Fix bug that occured when passing an invalid max value as package argument.
+			\item[-] Fix wrong color in pastel style.
+			\item[-] Internal refactoring.
+		\end{enumerate}
 		\item[1.2.1] 
 		\begin{enumerate}
 			\item[-] Renamed some commands to get a cohesive command style (now all start with rb).
@@ -354,7 +364,7 @@ unicode
 		\end{enumerate}
 		\item[1.1.1] 
 		\begin{enumerate}
-			\item[-] Add new styles
+			\item[-] Add new styles.
 			\item[-] Refactored style system.
 			\item[-] Fix typos.
 			\item[-] Added missing credits!
